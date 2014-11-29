@@ -18,6 +18,10 @@ Hands.prototype.setInMotion = function(movingFinger, movingColor, oldColor) {
 
 }
 
+Hands.prototype.isKeyPressed = function(key) {
+	return !!this.pressedKeys[key];
+}
+
 Hands.prototype.fingerPressed = function(key) {
 	this.freeFingers--; 
 

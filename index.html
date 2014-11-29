@@ -12,6 +12,19 @@
     <script src="gui.js"></script>
     <script>
     // initialization stuff here?
+    function getChar(which) {
+      var c = String.fromCharCode(which);
+      if (which == 186) {
+        c = ";";
+      } else if (which == 188) {
+        c = ",";
+      } else if (which == 190) {
+        c = ".";
+      } else if (which == 191) {
+        c = "/";
+      }
+      return c;
+    }
 
     var gui; // temp global for testing
 
@@ -19,31 +32,11 @@
       gui = new GUI();
 
       $(document).keydown(function(e) {
-        var c = String.fromCharCode(e.which);
-        if (e.which == 186) {
-          c = ";";
-        } else if (e.which == 188) {
-          c = ",";
-        } else if (e.which == 190) {
-          c = ".";
-        } else if (e.which == 191) {
-          c = "/";
-        }
-        gui.setKey(c, true);
+        gui.setKey(getChar(e.which), true);
       });
 
       $(document).keyup(function(e) {
-        var c = String.fromCharCode(e.which);
-        if (e.which == 186) {
-          c = ";";
-        } else if (e.which == 188) {
-          c = ",";
-        } else if (e.which == 190) {
-          c = ".";
-        } else if (e.which == 191) {
-          c = "/";
-        }
-        gui.setKey(c, false);
+        gui.setKey(getChar(e.which), false);
       });
 
     });
