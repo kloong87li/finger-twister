@@ -2,17 +2,64 @@
 <html>
   <head>
     <title>Fingah Twistah</title>
-
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <script src="jquery-2.1.1.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
     <script src="gui.js"></script>
-
-
     <script>
     // initialization stuff here?
 
+    var gui; // temp global for testing
+
+    $(document).ready(function() {
+      gui = new GUI();
+
+      $(document).keydown(function(e) {
+        var c = String.fromCharCode(e.which);
+        if (e.which == 186) {
+          c = ";";
+        } else if (e.which == 188) {
+          c = ",";
+        } else if (e.which == 190) {
+          c = ".";
+        } else if (e.which == 191) {
+          c = "/";
+        }
+        gui.setKey(c, true);
+      });
+
+      $(document).keyup(function(e) {
+        var c = String.fromCharCode(e.which);
+        if (e.which == 186) {
+          c = ";";
+        } else if (e.which == 188) {
+          c = ",";
+        } else if (e.which == 190) {
+          c = ".";
+        } else if (e.which == 191) {
+          c = "/";
+        }
+        gui.setKey(c, false);
+      });
+
+    });
 
     </script>
+
+
+    <div class='main'>
+      <div class='top'>
+
+      </div>
+      <div class='bottom'>
+        <div id='keyboard'>
+
+        </div>
+      </div>
+    </div>
   </body>
 </html>
