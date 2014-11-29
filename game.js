@@ -10,32 +10,40 @@ function GAME() {
 }
 
 GAME.prototype.startGame = function () {
-    window.addEventListener("keydown", onKeyPress);
-    window.addEventListener("keyup", onKeyRelease);
-    
-    Hands = new Hands(colorMap, pressedKeys);
+    this.hands = new Hands(colorMap, pressedKeys);
 
+    // TODO add new game phase listeners
+
+    // TODO initialize this stuff after new game phase
     this.timer = window.setTimeout(timerFired, 5000);
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
 }
 
 GAME.prototype.timerFired = function() {
-    var status = Hands.verify(colorReqs);
+    var status = this.hands.verify(colorReqs);
     if (status) {
-        this.nextInstruction(); 	
+        this.newRound();
     } else {
         this.gameOver();
     }
 }
 
-GAME.prototype.nextInstruction = function () {
+GAME.prototype.newRound = function () {
     this.movingFinger = Math.floor(Math.random() * 5);
     this.movingColor = Math.floor(Math.random() * 4);
 
+    // TODO make sure new finger is not the same color
+    // TODO start new timer
+
+    var oldColor = this.colorReqs[movingFinger];
     this.colorReqs[movingFinger] = movingColor;
-    Hands.setInMotion(this.movingFinger, this.movingColor);
+    this.hands.setInMotion(this.movingFinger, this.movingColor, oldColor);
 }
 
 GAME.prototype.onKeyPress = function (event) {
+    // TODO combine with gui code
     var keyCode = event.keyCode;
     var status = Hands.fingerPressed(keyCode);
     if (!status) {
@@ -52,7 +60,8 @@ GAME.prototype.onKeyRelease = function (event) {
 }
 
 GAME.prototype.gameOver = function() {
-    //some action to end game and potentially restart?
+    // some action to end game and potentially restart?
+    // do something in the gui
     window.removeEventListener("keydown", onKeyPress);
     window.removeEventListener("keyup", onKeyRelease);
  

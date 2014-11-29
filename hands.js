@@ -1,16 +1,16 @@
-function HANDS(colorMap, pressedKeys) {
-	this.colorMap = colorMap; //keyCode -> color
-    this.pressedKeys = pressedKeys; // keyCode -> finger
+function Hands(colorMap, pressedKeys) {
+	this.colorMap = colorMap; //key -> color
+    this.pressedKeys = pressedKeys; // key -> finger
 
-    this.inProgress = false; 
-    this.freeFingers = 0; 
+    this.inProgress = false;
+    this.freeFingers = 0;
 
     this.movingFinger = null;
     this.movingColor = null; 
     this.oldColor = null; 
 }
 
-HANDS.prototype.setInMotion = function(movingFinger, movingColor, oldColor) {
+Hands.prototype.setInMotion = function(movingFinger, movingColor, oldColor) {
 
     this.movingFinger = movingFinger; 
     this.movingColor = movingColor;
@@ -18,21 +18,25 @@ HANDS.prototype.setInMotion = function(movingFinger, movingColor, oldColor) {
 
 }
 
-HANDS.prototype.fingerPressed = function(keyCode) {
+Hands.prototype.fingerPressed = function(key) {
 	this.freeFingers--; 
+
+	if (this.freeFingers < 0) {
+		return false;
+	}
 
 	if (!this.inProgress) {
 		return false;
 		//someone pressed a key when it was not time to move
 	}
 
-	if (keyCode in colorMap) {
-		var newColor = colorMap[keyCode];
+	if (key in colorMap) {
+		var newColor = colorMap[key];
 		if (newColor != this.movingColor) {
 			return false; 
 			//they pressed a key that was the wrong color
 		}
-		this.pressedKeys[keyCode] = this.movingFinger;
+		this.pressedKeys[key] = this.movingFinger;
 
 		if (this.freeFingers == 0) {
 			this.inProgress = false; 
@@ -47,7 +51,7 @@ HANDS.prototype.fingerPressed = function(keyCode) {
 	}
 }
 
-HANDS.prototype.fingerReleased = function(keyCode) {
+Hands.prototype.fingerReleased = function(key) {
 	this.freeFingers++;
 
 	if (this.freeFingers > 2) {
@@ -58,31 +62,31 @@ HANDS.prototype.fingerReleased = function(keyCode) {
 		return false; //someone released a key when it was not time to move
 	}
 
-	if (this.pressedKeys[keyCode] != this.movingFinger) {
+	if (this.pressedKeys[key] != this.movingFinger) {
 		return false; //someone released a key of a finger that is not supposed to move
 	} 
 
-	if (this.colorMap[keyCode] != this.oldColor) {
+	if (this.colorMap[key] != this.oldColor) {
 		return false; //someone released a key that wasn't the original color
 		// ie. the case when someone pressed a new key but then lifted again
 	}
 
-	delete this.pressedKeys[keyCode];
+	delete this.pressedKeys[key];
 	//delete the released key from the map
 
 	return true; 
 }
 
-HANDS.prototype.verify = function(colorReqs) {
+Hands.prototype.verify = function(colorReqs) {
 
-	if (length(this.pressedKeys) != 10) {
+	if (this.freeFingers != 0) {
 		return false; 
 		//there are not enough keys pressed
 	}
 
-	for (var keyCode in this.pressedKeys) {
-		var finger = this.pressedKeys[keyCode]; 
-		var fingerColor = colorMap[keyCode];
+	for (var key in this.pressedKeys) {
+		var finger = this.pressedKeys[key]; 
+		var fingerColor = colorMap[key];
 		if (fingerColor != colorReqs[finger]) {
 			return false;  
 			// one of the fingers doesn't meet the color requirements
