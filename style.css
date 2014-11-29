@@ -3,7 +3,46 @@ body, html {
 	width: 100%;
 	height: 100%;
 	min-height: 500px;
+
+	font-family: 'Montserrat';
+	font-weight: 700;
 }
+
+/* Colors */
+
+.color-0 {
+	background: #DE6A6C; /* red */
+}
+
+.color-1 {
+	background: #5374CF; /* blue */
+}
+
+.color-2 {
+	background: #6ADE6E; /* green */
+}
+
+.color-3 {
+	background: #D8E87D; /* yellow */
+}
+
+.text-color-0 {
+	color: #DE6A6C; /* red */
+}
+
+.text-color-1 {
+	color: #5374CF; /* blue */
+}
+
+.text-color-2 {
+	color: #6ADE6E; /* green */
+}
+
+.text-color-3 {
+	color: #D8E87D; /* yellow */
+}
+
+/* General Styles */
 
 .main {
 	width: 900px;
@@ -14,6 +53,7 @@ body, html {
 	width: 100%;
 	height: 40%;
 	border: 1px solid black;
+	padding-top: 2%;
 }
 
 .bottom {
@@ -55,9 +95,8 @@ body, html {
 }
 
 .keyboard-button {
-	font-family: 'Montserrat';
+	
 	text-transform: capitalize;
-	font-weight: 700;
 	font-size: 14pt;
 	display: inline-block;
 	width: 8%;
@@ -92,31 +131,139 @@ body, html {
   fill: rgba(255,255,255, .3);
 }
 
-.keyboard-button.color-1 {
-	background: #DE6A6C; /* red */
+
+/* HUD styles */
+
+.top-left {
+	width: 75%;
+	height: 100%;
+	display: inline-block;
 }
 
-.keyboard-button.color-2 {
-	background: #5374CF; /* blue */
+.top-right {
+	width: 25%;
+	height: 100%;
+	display: inline-block;
+	float: right;
 }
 
-.keyboard-button.color-3 {
-	background: #6ADE6E; /* green */
+.requirements-container {
+	height: 50%;
+	text-align: center;
+	padding-left: 15%;
 }
 
-.keyboard-button.color-4 {
-	background: #D8E87D; /* yellow */
+.requirements-title {
+	font-size: 14pt;
+}
+
+#requirements {
+	padding-top: 1%;
+}
+
+#requirements > .finger-req {
+	display: inline-block;
+	height: 50px;
+	width: 75px;
+	position: relative;
+	margin: 0 3px;
+}
+
+.finger-req > .finger-name {
+	text-transform: uppercase;
+	font-size: 8pt;
+	position: absolute;
+	top: 5px;
+	width: 100%;
+	z-index: 5;
+}
+
+.finger-req > .finger-req-button {
+	height: 100%;
+	border-radius: 5px;
+}
+
+.finger-req.active > .finger-req-button{
+	position: relative;
+	left: -2px;
+	top: -2px;
+	box-shadow: 2px 2px 2px black;
+}
+
+.finger-req.active:before {
+	content: "";
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	width: 100%;
+	height: 100%;
+	border-radius: inherit;
+	background: white;
+	opacity: 0;
+	z-index: 6;
+
+	-webkit-animation-name: activeGlow;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-play-state: running;
 }
 
 
+@-webkit-keyframes activeGlow {
+    0%   {opacity: 0;}
+    40%  {opacity: .75;}
+    65%  {opacity: 0;}
+    100% {0}
+}
 
 
+.text-container {
+	padding-left: 15%;
+	text-align: center;
+}
+
+#text-output.instr-text {
+	font-size: 16pt;
+}
+
+#text-output > .instr {
+	text-decoration: underline;
+}
+
+#text-output > .finger-name {
+	text-transform: uppercase;
+	font-weight: 900;
+}
+
+#text-output > .color-name {
+	text-transform: uppercase;
+	font-weight: 900
+}
 
 
+/* Timer styles */
 
+#timer {
+	padding-top: 11%;
+}
 
+#timer > .timer-title {
+	font-size: 12pt;
+}
 
+#timer > .timer-count {
+	margin-top: 3%;
+	font-size: 20pt;
+}
 
+#timer.orange > .timer-count {
+	color: orange;
+}
+
+#timer.red > .timer-count {
+	color: red;
+}
 
 
 

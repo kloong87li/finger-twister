@@ -8,24 +8,30 @@ function GAME() {
     this.timer = null; 
     this.initPositions = {'q':4,'w':3,'e':2,'r':1,'c':0,'u':1,'i':2,'o':3,'p':4,'m':0}; 
     this.pressedKeys = {}; 
+    this.timer = new Timer();
+
+    this.initKeyDownListener = this.initKeyDown.bind(this);
+    this.initKeyUpListener = this.initKeyUp.bind(this);
+    this.keyDownListener = this.onKeyDown.bind(this);
+    this.keyUpListener = this.onKeyUp.bind(this);
 }
 
 GAME.prototype.startGame = function () {
     
-    window.addEventListener("keydown", initKeyDown);
-    window.addEventListener("keyup", initKeyUp);
+    window.addEventListener("keydown", this.initKeyDownListener);
+    window.addEventListener("keyup", this.initKeyUpListener);
 
 }
 
 GAME.prototype.continueGame = function() {
     // remove initial setup event listeners
-    window.removeEventListener("keydown", initKeyDown);
-    window.removeEventListener("keyup", initKeyUp);
+    window.removeEventListener("keydown", this.initKeyUpListener);
+    window.removeEventListener("keyup", this.initKeyUpListener);
 
-    // TODO initialize timer
-    this.hands = new Hands(colorMap, initPositions);
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
+    this.hands = new Hands(colorMap, this.initPositions);
+    window.addEventListener("keydown", this.keyDownListener);
+    window.addEventListener("keyup", this.keyUpListener;
+    this.newRound();
 }
 
 GAME.prototype.equalKeys = function(pos1, pos2) {
@@ -67,17 +73,18 @@ GAME.prototype.timerFired = function() {
 }
 
 GAME.prototype.newRound = function () {
-    this.movingFinger = Math.floor(Math.random() * 5);
-    this.movingColor = Math.floor(Math.random() * 4);
+    this.movingFinger = Math.floor(Math.random() * FINGERS);
+    this.movingColor = Math.floor(Math.random() * COLORS);
 
     var oldColor = this.colorReqs[this.movingFinger];
     if (this.movingColor == oldColor) {
-        oldColor = (oldColor + 1) % 4; 
+        oldColor = (oldColor + 1) % COLORS; 
     }
 
     this.colorReqs[this.movingFinger] = movingColor;
     this.hands.setInMotion(this.movingFinger, this.movingColor, oldColor);
-    // TODO start new timer
+    // TODO update timer to have finer resolution
+    this.timer.startTimer(5000, this.timerFired.bind(this));
 }
 
 GAME.prototype.onKeyDown = function (event) {
@@ -100,8 +107,8 @@ GAME.prototype.onKeyUp = function (event) {
 GAME.prototype.gameOver = function() {
     // some action to end game and potentially restart?
     // do something in the gui
-    window.removeEventListener("keydown", onKeyDown);
-    window.removeEventListener("keyup", onKeyUp);
+    window.removeEventListener("keydown", this.keyDownListener);
+    window.removeEventListener("keyup", this.keyUpListener);
  
 }
 

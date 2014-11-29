@@ -11,6 +11,9 @@
     <script src="jquery-ui.min.js"></script>
     <script src="gui.js"></script>
     <script>
+    var FINGERS = 5;
+    var COLORS = 4;
+
     // initialization stuff here?
     function getChar(which) {
       var c = String.fromCharCode(which);
@@ -29,7 +32,7 @@
     var gui; // temp global for testing
 
     $(document).ready(function() {
-      gui = new GUI();
+      gui = new GUI([0, 1, 2, 3, 0]);
 
       $(document).keydown(function(e) {
         gui.setKey(getChar(e.which), true);
@@ -39,6 +42,10 @@
         gui.setKey(getChar(e.which), false);
       });
 
+      gui.showText("To start the game, place fingers on QWERC / UIOPM");
+      gui.newInstruction(0, 1);
+      gui.setTimer(4.3);
+
     });
 
     </script>
@@ -46,7 +53,30 @@
 
     <div class='main'>
       <div class='top'>
+        <div class='top-left'>
+          <div class ='requirements-container'>
+            <div class='requirements-title'>
+              Current Requirements:
+            </div>
+            <div id="requirements">
+            </div>
+          </div>
+          <div class="text-container">
+            <div id='text-output'>
 
+            </div>
+          </div>
+        </div>
+        <div class='top-right'>
+          <div id='timer'>
+            <div class='timer-title'>
+              Time Remaining:
+            </div>
+            <div class='timer-count'>
+              <span class='time'></span> s
+            </div>
+          </div>
+        </div>
       </div>
       <div class='bottom'>
         <div id='keyboard'>

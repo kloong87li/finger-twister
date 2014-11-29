@@ -2,37 +2,44 @@ function Timer() {
 	this.timeout = null;
 	this.intervalCallback = null;
 	this.timerCallback = null;
+	this.resolution = 100;
 
 	this.count = 0;
 	this.goal = 0;
 }
 
 
-Timer.prototype.setIntervalCallback = function(callback) {
+// resolution must be multiple of 100, defaults to 100 i.e .1 second
+Timer.prototype.setIntervalCallback = function(callback, resolution) {
 	this.intervalCallback = callback;
+	this.resolution = resolution || this.resolution;
 }
 
 
-Timer.prototype.startTimer = function(seconds, callback) {
+Timer.prototype.startTimer = function(ms, callback) {
 	if (this.timeout != null) {
 		console.error("Starting timer when one is already in progress!\n");
-		returnl
+		return;
 	}
 
 	this.count = 0;
-	this.goal = seconds;
+	this.goal = ms;
 
 	this.timerCallback = callback;
 
 	this.timeout = window.setInterval((function() {
-		this.count++;
-		this.intervalCallback();
+		this.count += 100;
 
-		if (this.count == this.goal) {
+		if (this.count % this.resolution == 0) {
+			this.intervalCallback();
+		}
+
+		if (this.count >= this.goal) {
 			this.timerCallback();
 			this.stopTimer();
 		}
-	}).bind(this), 1000);
+
+	}).bind(this), 100);
 }
 
 
