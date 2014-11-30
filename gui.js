@@ -1,17 +1,4 @@
 function GUI(initialReqs) {
-	this.KEYS = [
-		['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-		['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-		['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'],
-		['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
-	];
-
-	this.KEY_COLORS = [
-		[0, 1, 2, 3, 0, 1, 2, 3, 0, 1],
-		[2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
-		[0, 1, 2, 3, 0, 1, 2, 3, 0, 1],
-		[2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
-	]
 
 	this.fingerNames = ['thumb', 'pointer', 'middle', 'ring', 'pinkie'];
 	this.colorNames = ['red', 'blue', 'green', 'yellow'];
@@ -25,22 +12,24 @@ function GUI(initialReqs) {
 
 	this.correctNoise = new Audio('audio/correct.mp3');
 	this.wrongNoise = new Audio('audio/wrong.mp3');
+
+	this.hideTimer();
 }
 
 
 GUI.prototype.drawKeys = function (keyboard) {
 	keyboard.html('');
-	for (var i = 0; i < this.KEYS.length; i++) {
+	for (var i = 0; i < KEYS.length; i++) {
 		var row = $("<div class='keyboard-row'></div>");
 		row.addClass('row-' + i); // add special class per row
 		keyboard.append(row);
-		for (var j = 0; j < this.KEYS[0].length; j++) {
+		for (var j = 0; j < KEYS[0].length; j++) {
 			var button = $("<div class='keyboard-button'></div>");
-			button.text(this.KEYS[i][j]); // set button text
-			button.addClass('color-' + this.KEY_COLORS[i][j]) // set class based on color
+			button.text(KEYS[i][j]); // set button text
+			button.addClass('color-' + KEY_COLORS[i][j]) // set class based on color
 
 			row.append(button);
-			this.key2div[this.KEYS[i][j]] = button; // update internal map of keys to buttons
+			this.key2div[KEYS[i][j]] = button; // update internal map of keys to buttons
 		}
 	}
 }
@@ -130,6 +119,11 @@ GUI.prototype.newInstruction = function(finger, color) {
 }
 
 
+GUI.prototype.hideTimer = function () {
+	var timer = $("#timer").removeClass('orange red');
+	timer.hide();
+}
+
 // time in seconds
 GUI.prototype.setTimer = function(time) {
 	var timer = $("#timer").removeClass('orange red');
@@ -137,7 +131,6 @@ GUI.prototype.setTimer = function(time) {
 
 	timer.find(".time").text(time);
 
-	console.log(time, time <= 1.0);
 	if (time <= 1.0) {
 		timer.addClass('red');
 	} else if (time <= 2.0) {
@@ -150,10 +143,16 @@ GUI.prototype.playCorrectNoise = function() {
 	this.correctNoise.play();
 }
 
+
 GUI.prototype.playWrongNoise = function (){
 	this.wrongNoise.play();
 }
 
+
+GUI.prototype.showGameOver = function() {
+	console.log('gameOver');
+	window.alert("Game Over");
+}
 
 
 

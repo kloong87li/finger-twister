@@ -5,11 +5,11 @@ function Timer() {
 	this.resolution = 100;
 
 	this.count = 0;
-	this.goal = 0;
 }
 
 
 // resolution must be multiple of 100, defaults to 100 i.e .1 second
+// callback should take time as argument
 Timer.prototype.setIntervalCallback = function(callback, resolution) {
 	this.intervalCallback = callback;
 	this.resolution = resolution || this.resolution;
@@ -22,19 +22,18 @@ Timer.prototype.startTimer = function(ms, callback) {
 		return;
 	}
 
-	this.count = 0;
-	this.goal = ms;
+	this.count = ms;
 
 	this.timerCallback = callback;
 
 	this.timeout = window.setInterval((function() {
-		this.count += 100;
+		this.count -= 100;
 
 		if (this.count % this.resolution == 0) {
-			this.intervalCallback();
+			this.intervalCallback(this.count);
 		}
 
-		if (this.count >= this.goal) {
+		if (this.count <= 0) {
 			this.timerCallback();
 			this.stopTimer();
 		}
@@ -44,10 +43,10 @@ Timer.prototype.startTimer = function(ms, callback) {
 
 
 Timer.prototype.stopTimer = function () {
-	this.clearTimeout(this.timeout);
+	window.clearTimeout(this.timeout);
+	this.timeout = null;
 	this.timerCallback = null;
 	this.count = 0;
-	this.goal = 0;
 }
 
 

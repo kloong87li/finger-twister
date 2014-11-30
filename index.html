@@ -10,11 +10,30 @@
     <script src="jquery-2.1.1.min.js"></script>
     <script src="jquery-ui.min.js"></script>
     <script src="gui.js"></script>
+    <script src="timer.js"></script>
+    <script src="hands.js"></script>
+    <script src="game.js"></script>
     <script>
-    var FINGERS = 5;
+
+    // global constants
+    var FINGERS =  2; //5;
     var COLORS = 4;
 
-    // initialization stuff here?
+    var KEYS = [
+      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+      ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+      ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'],
+      ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
+    ];
+
+    var KEY_COLORS = [
+      [0, 1, 2, 3, 0, 1, 2, 3, 0, 1],
+      [2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
+      [0, 1, 2, 3, 0, 1, 2, 3, 0, 1],
+      [2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
+    ]
+
+    // global helper functions
     function getChar(which) {
       var c = String.fromCharCode(which);
       if (which == 186) {
@@ -29,22 +48,29 @@
       return c;
     }
 
-    var gui; // temp global for testing
+    var lastKeyCode;
+    function debounceCharDown(fun) {
+      return function(e) {
+        if (e.which != lastKeyCode) {
+          lastKeyCode = e.which;
+          fun(e);
+        }
+      };
+    }
+
+    function debounceCharUp(fun) {
+      return function(e) {
+          fun(e);
+          lastKeyCode = null;
+      };
+    }
+
+    var game;
 
     $(document).ready(function() {
-      gui = new GUI([0, 1, 2, 3, 0]);
 
-      $(document).keydown(function(e) {
-        gui.setKey(getChar(e.which), true);
-      });
-
-      $(document).keyup(function(e) {
-        gui.setKey(getChar(e.which), false);
-      });
-
-      gui.showText("To start the game, place fingers on QWERC / UIOPM");
-      gui.newInstruction(0, 1);
-      gui.setTimer(4.3);
+      game = new GAME();
+      game.startGame();
 
     });
 
