@@ -20,10 +20,10 @@ GAME.prototype.startGame = function () {
     // these are hardcoded... -.-
     if (FINGERS == 5) {
         // TODO fix these...
-        this.initPositions = {'Q':4,'W':3,'E':2,'R':1,'C':0,'U':1,'I':2,'O':3,'O':4,'M':0};
-        this.colorReqs = {}
-        this.gui = new GUI([0, 1, 2, 3, 0]);
-        this.gui.showText("To start the game, place fingers on QWERC / UIOPM");
+        this.initPositions = {'1':4,'W':3,'E':2,'R':1,'C':0,'9':4,'8':3,'U':2,'H':1,'M':0};
+        this.colorReqs = {4: 0, 3: 3, 2: 0, 1: 1, 0: 0}
+        this.gui = new GUI([0, 1, 0, 3, 0]);
+        this.gui.showText("To start the game, place fingers on 1WERC / MHU89");
     } else {
         this.initPositions = {'Q':1,'W':0, 'K':0,'O':1};
         this.colorReqs = {0: 3, 1: 2};
@@ -32,6 +32,8 @@ GAME.prototype.startGame = function () {
     }
 
     this.pressedKeys = {}; 
+    this.successfulRounds = 0;
+    this.interval = 10000;
 
     window.addEventListener("keydown", this.initKeyDownListener);
     window.addEventListener("keyup", this.initKeyUpListener);
@@ -111,12 +113,18 @@ GAME.prototype.newRound = function () {
 
     this.colorReqs[this.movingFinger] = this.movingColor;
     this.hands.setInMotion(this.movingFinger, this.movingColor);
+    this.successfulRounds++;
+
+    if (this.successfulRounds % 3 == 0 && this.interval > 3000) {
+        this.interval -= 1000;
+        // TODO do a GUI animation for this
+    }
 
     // gui stuff
     this.gui.newInstruction(this.movingFinger, this.movingColor);
     this.timer.setIntervalCallback(this.updateTimer.bind(this));
 
-    this.timer.startTimer(10000, this.timerFired.bind(this));
+    this.timer.startTimer(this.interval, this.timerFired.bind(this));
 }
 
 GAME.prototype.onKeyDown = function (event) {

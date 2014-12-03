@@ -1,5 +1,5 @@
 body, html {
-	background: #FAF8D7;
+	background: #000;
 	width: 100%;
 	height: 100%;
 	min-height: 500px;
@@ -11,35 +11,35 @@ body, html {
 /* Colors */
 
 .color-0 {
-	background: #DE6A6C; /* red */
+	background: #F44E24; /* red */
 }
 
 .color-1 {
-	background: #5374CF; /* blue */
+	background: #01A4EF; /* blue */
 }
 
 .color-2 {
-	background: #6ADE6E; /* green */
+	background: #81B900; /* green */
 }
 
 .color-3 {
-	background: #D8E87D; /* yellow */
+	background: #FFC300; /* yellow */
 }
 
 .text-color-0 {
-	color: #DE6A6C; /* red */
+	color: #F44E24; /* red */
 }
 
 .text-color-1 {
-	color: #5374CF; /* blue */
+	color: #01A4EF; /* blue */
 }
 
 .text-color-2 {
-	color: #6ADE6E; /* green */
+	color: #81B900; /* green */
 }
 
 .text-color-3 {
-	color: #D8E87D; /* yellow */
+	color: #FFC300; /* yellow */
 }
 
 /* General Styles */
@@ -47,28 +47,32 @@ body, html {
 .main {
 	width: 900px;
 	height: 550px;
+	background: white;
+	margin: 0 auto;
+	border: 1px solid black;
+	border-radius: 5px;
 }
 
 .top {
 	width: 100%;
 	height: 40%;
-	border: 1px solid black;
 	padding-top: 2%;
 }
 
 .bottom {
 	width: 100%;
-	border: 1px solid black;
+	border-top: 2px solid black;
+	border-radius: 0 0 5px 5px;
 }
 
 
 /* Keyboard styles */
 
 #keyboard {
-	padding: 9px 0;
-	border-radius: 5px;
+	padding: 30px 0;
 	background: white;
 	width: 100%;
+	border-radius: 0 0 5px 5px;
 }
 
 .keyboard-row {
@@ -158,7 +162,7 @@ body, html {
 }
 
 #requirements {
-	padding-top: 1%;
+	padding-top: 2%;
 }
 
 #requirements > .finger-req {
