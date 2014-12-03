@@ -182,13 +182,20 @@ body, html {
 	z-index: 5;
 }
 
+.finger-req-button > .initial-req-key {
+	position: absolute;
+	bottom: 8px;
+	text-align: center;
+	width: 100%;
+}
+
 .finger-req > .finger-req-button {
 	height: 100%;
 	border-radius: 5px;
+	position: relative;
 }
 
 .finger-req.active > .finger-req-button{
-	position: relative;
 	left: -2px;
 	top: -2px;
 	box-shadow: 2px 2px 2px black;

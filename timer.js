@@ -26,6 +26,7 @@ Timer.prototype.startTimer = function(ms, callback) {
 
 	this.timerCallback = callback;
 
+	this.intervalCallback(this.count);
 	this.timeout = window.setInterval((function() {
 		this.count -= 100;
 

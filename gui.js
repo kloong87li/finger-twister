@@ -1,4 +1,4 @@
-function GUI(initialReqs) {
+function GUI(initialReqs, initialKeys) {
 
 	this.fingerNames = ['thumb', 'pointer', 'middle', 'ring', 'pinkie'];
 	this.colorNames = ['red', 'blue', 'green', 'yellow'];
@@ -9,6 +9,7 @@ function GUI(initialReqs) {
 
 	this.drawKeys($('#keyboard'));
 	this.createReqs(initialReqs);
+	this.showInitialKeys(initialKeys);
 
 	this.correctNoise = new Audio('audio/correct.mp3');
 	this.wrongNoise = new Audio('audio/wrong.mp3');
@@ -155,6 +156,26 @@ GUI.prototype.showGameOver = function() {
 }
 
 
+GUI.prototype.showInitialKeys = function(initialKeys) {
+	this.hideInitialKeys();
+	
+	var container = $('#requirements');	
+	var reqs = container.find('.finger-req-button');
+
+	for (var i = 0; i < FINGERS; i++) {
+		var text = $("<div class='initial-req-key'></div>");
+		text.html(initialKeys[i]);
+		$(reqs[i]).append(text);
+	}
+
+}
+
+
+GUI.prototype.hideInitialKeys = function () {
+	var container = $('#requirements');	
+	var texts = container.find('.initial-req-key');
+	texts.remove();
+}
 
 
 
